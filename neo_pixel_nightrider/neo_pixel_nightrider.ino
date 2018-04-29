@@ -8,7 +8,7 @@
 #define OFFSET 30
 #define readVoltPin 12
 #define sensingPin A2
-#define lowBattVolt 3.5
+#define lowBattVolt 3.3
 float batteryVolt = 0.0;
 int printInterval = 2000;
 unsigned long printTime = 0;
