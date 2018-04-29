@@ -1,0 +1,5 @@
+revert back battery voltage sensing and change low volt to 3.5V
+
+revert back to 56eebe0accfd54ddb5d42e2 commit.
+use back the battery voltage sensing and change the low battery 
+voltage to 3.5V
