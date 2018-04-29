@@ -4,7 +4,14 @@
 #endif
 
 #define PIN 6
+#define BRIGHTNESS 30
 #define OFFSET 30
+#define readVoltPin 12
+#define sensingPin A2
+#define lowBattVolt 3.5
+float batteryVolt = 0.0;
+int printInterval = 2000;
+unsigned long printTime = 0;
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -30,23 +37,44 @@ void setup() {
 
   strip.begin();
   strip.show(); // Initialize all pixels to 'off'
+
+  pinMode(readVoltPin, OUTPUT);
+  digitalWrite(readVoltPin, LOW);
+  Serial.begin(9600);
 }
 
 void loop() {
-  // Some example procedures showing how to display to the pixels:
-  colorWipe(strip.Color(100, 0, 0), 20); // Red
-  colorWipe(strip.Color(0, 40, 0), 20); // Green
-  colorWipe(strip.Color(40, 0, 40), 20); // Blue
-  //  colorWipe(strip.Color(0, 0, 0, 255), 50); // White RGBW
-  // Send a theater pixel chase in...
-  //  theaterChase(strip.Color(127, 127, 127), 50); // White
-  theaterChase(strip.Color(40, 0, 0), 100); // Red
-  theaterChase(strip.Color(10, 10, 0), 100); // Red n Green
-  theaterChase(strip.Color(20, 00, 20), 100); // Red n Blue
-  //theaterChase(strip.Color(0, 0, 127), 50); // Blue
-  //theaterChaseRainbow(50);
-  //rainbow(20);
-  //rainbowCycle(20);
+  if (millis() - printTime > printInterval) {
+    printTime = millis();
+    digitalWrite(readVoltPin, HIGH);
+    delay(50);
+    batteryVolt = analogRead(sensingPin);
+    batteryVolt = batteryVolt * 5 / 1024.0;
+    Serial.print("Battery Volt:  ");
+    Serial.println(batteryVolt, 3);
+    digitalWrite(readVoltPin, LOW);
+  }
+  if (batteryVolt > lowBattVolt) {
+    // Some example procedures showing how to display to the pixels:
+    colorWipe(strip.Color(100, 0, 0), 20); // Red
+    colorWipe(strip.Color(0, 40, 0), 20); // Green
+    colorWipe(strip.Color(40, 0, 40), 20); // Blue
+    //  colorWipe(strip.Color(0, 0, 0, 255), 50); // White RGBW
+    // Send a theater pixel chase in...
+    //  theaterChase(strip.Color(127, 127, 127), 50); // White
+    theaterChase(strip.Color(40, 0, 0), 100); // Red
+    theaterChase(strip.Color(10, 10, 0), 100); // Red n Green
+    theaterChase(strip.Color(20, 00, 20), 100); // Red n Blue
+    //theaterChase(strip.Color(0, 0, 127), 50); // Blue
+    //theaterChaseRainbow(50);
+    //rainbow(20);
+    //rainbowCycle(20);
+  } else {
+    for (int i = 0; i < strip.numPixels(); i++) {
+      strip.setPixelColor(i, 0);
+    }
+    strip.show();
+  }
 }
 
 // Fill the dots one after the other with a color
