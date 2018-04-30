@@ -105,22 +105,22 @@ void colorWipe(uint32_t c, uint8_t wait) {
     delay(wait);
   }
   for (uint16_t i = strip.numPixels(); i > 0; i--) {
-    strip.setPixelColor(i + OFFSET + 2, c * 0);
-    strip.setPixelColor(i + OFFSET + 1, c / 5);
+    strip.setPixelColor(i + OFFSET + 3, c * 0);
+    strip.setPixelColor(i + OFFSET + 2, c / 5);
     strip.setPixelColor(i + OFFSET + 1, c / 2);
     strip.setPixelColor(i + OFFSET, c);
     strip.setPixelColor(i + OFFSET - 1, c / 2);
     strip.setPixelColor(i + OFFSET - 2, c / 5);
 
-    strip.setPixelColor(i + 2, c * 0);
-    strip.setPixelColor(i + 1, c / 5);
+    strip.setPixelColor(i + 3, c * 0);
+    strip.setPixelColor(i + 2, c / 5);
     strip.setPixelColor(i + 1, c / 2);
     strip.setPixelColor(i, c);
     strip.setPixelColor(i - 1, c / 2);
     strip.setPixelColor(i - 2, c / 5);
 
-    strip.setPixelColor(i - OFFSET + 2, c * 0);
-    strip.setPixelColor(i - OFFSET + 1, c / 5);
+    strip.setPixelColor(i - OFFSET + 3, c * 0);
+    strip.setPixelColor(i - OFFSET + 2, c / 5);
     strip.setPixelColor(i - OFFSET + 1, c / 2);
     strip.setPixelColor(i - OFFSET, c);
     strip.setPixelColor(i - OFFSET - 1, c / 2);
