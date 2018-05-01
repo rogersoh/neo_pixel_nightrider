@@ -4,7 +4,8 @@
 #endif
 
 #define PIN 6
-#define BRIGHTNESS 30
+#define NumberPixel 60
+#define GROUP 20
 #define OFFSET 30
 #define readVoltPin 12
 #define sensingPin A2
@@ -21,7 +22,7 @@ unsigned long printTime = 0;
 //   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
 //   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
 //   NEO_RGBW    Pixels are wired for RGBW bitstream (NeoPixel RGBW products)
-Adafruit_NeoPixel strip = Adafruit_NeoPixel(60, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(NumberPixel, PIN, NEO_GRB + NEO_KHZ800);
 
 // IMPORTANT: To reduce NeoPixel burnout risk, add 1000 uF capacitor across
 // pixel power leads, add 300 - 500 Ohm resistor on first pixel's data input
@@ -56,9 +57,9 @@ void loop() {
   }
   if (batteryVolt > lowBattVolt) {
     // Some example procedures showing how to display to the pixels:
-    colorWipe(strip.Color(100, 0, 0), 20); // Red
-    colorWipe(strip.Color(0, 40, 0), 20); // Green
-    colorWipe(strip.Color(40, 0, 40), 20); // Blue
+    nightrider(strip.Color(100, 0, 0), 40); // Red
+    nightriderFwd(strip.Color(0, 20, 0), 40); // Green
+    nightrider(strip.Color(40, 0, 40), 40); // Blue
     //  colorWipe(strip.Color(0, 0, 0, 255), 50); // White RGBW
     // Send a theater pixel chase in...
     //  theaterChase(strip.Color(127, 127, 127), 50); // White
@@ -75,6 +76,120 @@ void loop() {
     }
     strip.show();
   }
+}
+
+// nightrider
+void nightrider(uint32_t c, uint8_t wait) {
+  for (uint16_t k = 0; k < NumberPixel / GROUP; k++) {
+    for (uint16_t j = 0; j < GROUP; j++) {
+      for (uint16_t i = 0; i < strip.numPixels(); i = i + GROUP) {
+        strip.setPixelColor(i + j, 0);
+        if (j + 1 > GROUP) {
+          strip.setPixelColor(i + j + 1 - GROUP, c / 10);
+        } else {
+          strip.setPixelColor(i + j + 1, c / 10);
+        }
+        if (j + 2 > GROUP) {
+          strip.setPixelColor(i + j + 2 - GROUP, c / 2);
+        } else {
+          strip.setPixelColor(i + j + 2, c / 2);
+        }
+        if (j + 3 > GROUP) {
+          strip.setPixelColor(i + j + 3 - GROUP, c);
+        } else {
+          strip.setPixelColor(i + j + 3, c);
+        }
+        if (j + 4 > GROUP) {
+          strip.setPixelColor(i + j + 4 - GROUP, c / 2);
+        } else {
+          strip.setPixelColor(i + j + 4, c / 2);
+        }
+        if (j + 5 > GROUP) {
+          strip.setPixelColor(i + j + 5 - GROUP, c / 10);
+        } else {
+          strip.setPixelColor(i + j + 5, c / 10);
+        }
+      }
+      strip.show();
+      delay(wait);
+    }//forward
+
+    for (uint16_t j = GROUP - 1; j > 0; j--) {
+      for (uint16_t i = 0; i < strip.numPixels(); i = i + GROUP) {
+        strip.setPixelColor(i + j, 0);
+        if (j + 1 > GROUP) {
+          strip.setPixelColor(i + j + 1 - GROUP, c / 10);
+        } else {
+          strip.setPixelColor(i + j + 1, c / 10);
+        }
+        if (j + 2 > GROUP) {
+          strip.setPixelColor(i + j + 2 - GROUP, c / 2);
+        } else {
+          strip.setPixelColor(i + j + 2, c / 2);
+        }
+        if (j + 3 > GROUP) {
+          strip.setPixelColor(i + j + 3 - GROUP, c);
+        } else {
+          strip.setPixelColor(i + j + 3, c);
+        }
+        if (j + 4 > GROUP) {
+          strip.setPixelColor(i + j + 4 - GROUP, c / 2);
+        } else {
+          strip.setPixelColor(i + j + 4, c / 2);
+        }
+        if (j + 5 > GROUP) {
+          strip.setPixelColor(i + j + 5 - GROUP, c / 10);
+        } else {
+          strip.setPixelColor(i + j + 5, c / 10);
+        }
+        if (j + 6 > GROUP) {
+          strip.setPixelColor(i + j + 6 - GROUP, 0);
+        } else {
+          strip.setPixelColor(i + j + 6, 0);
+        }
+      }
+      strip.show();
+      delay(wait);
+    }//reverse
+  }//number of times
+}
+
+// nightriderFwd
+void nightriderFwd(uint32_t c, uint8_t wait) {
+  for (uint16_t k = 0; k < 2 * NumberPixel / GROUP; k++) {
+    for (uint16_t j = 0; j < GROUP; j++) {
+      for (uint16_t i = 0; i < strip.numPixels(); i = i + GROUP) {
+        strip.setPixelColor(i + j, 0);
+        if (j + 1 > GROUP) {
+          strip.setPixelColor(i + j + 1 - GROUP, c / 10);
+        } else {
+          strip.setPixelColor(i + j + 1, c / 10);
+        }
+        if (j + 2 > GROUP) {
+          strip.setPixelColor(i + j + 2 - GROUP, c / 2);
+        } else {
+          strip.setPixelColor(i + j + 2, c / 2);
+        }
+        if (j + 3 > GROUP) {
+          strip.setPixelColor(i + j + 3 - GROUP, c);
+        } else {
+          strip.setPixelColor(i + j + 3, c);
+        }
+        if (j + 4 > GROUP) {
+          strip.setPixelColor(i + j + 4 - GROUP, c / 2);
+        } else {
+          strip.setPixelColor(i + j + 4, c / 2);
+        }
+        if (j + 5 > GROUP) {
+          strip.setPixelColor(i + j + 5 - GROUP, c / 10);
+        } else {
+          strip.setPixelColor(i + j + 5, c / 10);
+        }
+      }
+      strip.show();
+      delay(wait);
+    }//forward
+  }//number of times
 }
 
 // Fill the dots one after the other with a color
