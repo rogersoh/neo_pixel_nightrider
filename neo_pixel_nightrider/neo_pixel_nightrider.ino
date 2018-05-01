@@ -113,8 +113,9 @@ void nightrider(uint32_t c, uint8_t wait) {
       strip.show();
       delay(wait);
     }//forward
-
-    for (uint16_t j = GROUP - 1; j > 0; j--) {
+  }
+  for (uint16_t k = 0; k < NumberPixel / GROUP; k++) {
+    for (uint16_t j = GROUP; j > 0; j--) {
       for (uint16_t i = 0; i < strip.numPixels(); i = i + GROUP) {
         strip.setPixelColor(i + j, 0);
         if (j + 1 > GROUP) {
