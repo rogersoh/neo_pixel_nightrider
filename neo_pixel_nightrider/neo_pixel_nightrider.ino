@@ -84,27 +84,27 @@ void nightrider(uint32_t c, uint8_t wait) {
     for (uint16_t j = 0; j < GROUP; j++) {
       for (uint16_t i = 0; i < strip.numPixels(); i = i + GROUP) {
         strip.setPixelColor(i + j, 0);
-        if (j + 1 > GROUP) {
+        if (j + 1 >= GROUP) {
           strip.setPixelColor(i + j + 1 - GROUP, c / 10);
         } else {
           strip.setPixelColor(i + j + 1, c / 10);
         }
-        if (j + 2 > GROUP) {
+        if (j + 2 >= GROUP) {
           strip.setPixelColor(i + j + 2 - GROUP, c / 2);
         } else {
           strip.setPixelColor(i + j + 2, c / 2);
         }
-        if (j + 3 > GROUP) {
+        if (j + 3 >= GROUP) {
           strip.setPixelColor(i + j + 3 - GROUP, c);
         } else {
           strip.setPixelColor(i + j + 3, c);
         }
-        if (j + 4 > GROUP) {
+        if (j + 4 >= GROUP) {
           strip.setPixelColor(i + j + 4 - GROUP, c / 2);
         } else {
           strip.setPixelColor(i + j + 4, c / 2);
         }
-        if (j + 5 > GROUP) {
+        if (j + 5 >= GROUP) {
           strip.setPixelColor(i + j + 5 - GROUP, c / 10);
         } else {
           strip.setPixelColor(i + j + 5, c / 10);
@@ -118,32 +118,32 @@ void nightrider(uint32_t c, uint8_t wait) {
     for (uint16_t j = GROUP; j > 0; j--) {
       for (uint16_t i = 0; i < strip.numPixels(); i = i + GROUP) {
         strip.setPixelColor(i + j, 0);
-        if (j + 1 > GROUP) {
+        if (j + 1 >= GROUP) {
           strip.setPixelColor(i + j + 1 - GROUP, c / 10);
         } else {
           strip.setPixelColor(i + j + 1, c / 10);
         }
-        if (j + 2 > GROUP) {
+        if (j + 2 >= GROUP) {
           strip.setPixelColor(i + j + 2 - GROUP, c / 2);
         } else {
           strip.setPixelColor(i + j + 2, c / 2);
         }
-        if (j + 3 > GROUP) {
+        if (j + 3 >= GROUP) {
           strip.setPixelColor(i + j + 3 - GROUP, c);
         } else {
           strip.setPixelColor(i + j + 3, c);
         }
-        if (j + 4 > GROUP) {
+        if (j + 4 >= GROUP) {
           strip.setPixelColor(i + j + 4 - GROUP, c / 2);
         } else {
           strip.setPixelColor(i + j + 4, c / 2);
         }
-        if (j + 5 > GROUP) {
+        if (j + 5 >= GROUP) {
           strip.setPixelColor(i + j + 5 - GROUP, c / 10);
         } else {
           strip.setPixelColor(i + j + 5, c / 10);
         }
-        if (j + 6 > GROUP) {
+        if (j + 6 >= GROUP) {
           strip.setPixelColor(i + j + 6 - GROUP, 0);
         } else {
           strip.setPixelColor(i + j + 6, 0);
@@ -161,27 +161,27 @@ void nightriderFwd(uint32_t c, uint8_t wait) {
     for (uint16_t j = 0; j < GROUP; j++) {
       for (uint16_t i = 0; i < strip.numPixels(); i = i + GROUP) {
         strip.setPixelColor(i + j, 0);
-        if (j + 1 > GROUP) {
+        if (j + 1 >= GROUP) {
           strip.setPixelColor(i + j + 1 - GROUP, c / 10);
         } else {
           strip.setPixelColor(i + j + 1, c / 10);
         }
-        if (j + 2 > GROUP) {
+        if (j + 2 >= GROUP) {
           strip.setPixelColor(i + j + 2 - GROUP, c / 2);
         } else {
           strip.setPixelColor(i + j + 2, c / 2);
         }
-        if (j + 3 > GROUP) {
+        if (j + 3 >= GROUP) {
           strip.setPixelColor(i + j + 3 - GROUP, c);
         } else {
           strip.setPixelColor(i + j + 3, c);
         }
-        if (j + 4 > GROUP) {
+        if (j + 4 >= GROUP) {
           strip.setPixelColor(i + j + 4 - GROUP, c / 2);
         } else {
           strip.setPixelColor(i + j + 4, c / 2);
         }
-        if (j + 5 > GROUP) {
+        if (j + 5 >= GROUP) {
           strip.setPixelColor(i + j + 5 - GROUP, c / 10);
         } else {
           strip.setPixelColor(i + j + 5, c / 10);
