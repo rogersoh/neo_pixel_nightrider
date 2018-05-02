@@ -13,6 +13,8 @@
 float batteryVolt = 0.0;
 int printInterval = 2000;
 unsigned long printTime = 0;
+const float OnTime = 0.5 ; // OnTime in hours
+bool ON = true;
 
 // Parameter 1 = number of pixels in strip
 // Parameter 2 = Arduino pin number (most are valid)
@@ -40,11 +42,19 @@ void setup() {
   strip.show(); // Initialize all pixels to 'off'
 
   pinMode(readVoltPin, OUTPUT);
+  digitalWrite(readVoltPin, HIGH);
+  delay(50);
+  batteryVolt = analogRead(sensingPin);
+  batteryVolt = batteryVolt * 5 / 1024.0;
   digitalWrite(readVoltPin, LOW);
   Serial.begin(9600);
 }
 
 void loop() {
+  if (ON && millis() > OnTime * 3600000) {
+    ON = false;
+  }
+
   if (millis() - printTime > printInterval) {
     printTime = millis();
     digitalWrite(readVoltPin, HIGH);
@@ -55,11 +65,11 @@ void loop() {
     Serial.println(batteryVolt, 3);
     digitalWrite(readVoltPin, LOW);
   }
-  if (batteryVolt > lowBattVolt) {
+  if (batteryVolt > lowBattVolt && ON) {
     // Some example procedures showing how to display to the pixels:
-    nightrider(strip.Color(100, 0, 0), 40); // Red
-    nightriderFwd(strip.Color(0, 20, 0), 40); // Green
-    nightrider(strip.Color(40, 0, 40), 40); // Blue
+    nightrider(strip.Color(60, 0, 0), 40); // Red
+    nightriderFwd(strip.Color(0, 10, 0), 40); // Green
+    nightrider(strip.Color(0, 0, 10), 40); // Blue
     //  colorWipe(strip.Color(0, 0, 0, 255), 50); // White RGBW
     // Send a theater pixel chase in...
     //  theaterChase(strip.Color(127, 127, 127), 50); // White
