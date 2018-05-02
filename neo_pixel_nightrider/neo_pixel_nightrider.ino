@@ -7,7 +7,9 @@
 #define NumberPixel 60
 #define GROUP 20
 #define OFFSET 30
+#define BRIGHTNESS 12
 #define readVoltPin 12
+#define powerOnPin 4
 #define sensingPin A2
 #define lowBattVolt 3.3
 float batteryVolt = 0.0;
@@ -42,7 +44,9 @@ void setup() {
   strip.show(); // Initialize all pixels to 'off'
 
   pinMode(readVoltPin, OUTPUT);
+  pinMode(powerOnPin, OUTPUT);
   digitalWrite(readVoltPin, HIGH);
+  digitalWrite(powerOnPin, HIGH);
   delay(50);
   batteryVolt = analogRead(sensingPin);
   batteryVolt = batteryVolt * 5 / 1024.0;
@@ -75,16 +79,16 @@ void loop() {
     //  theaterChase(strip.Color(127, 127, 127), 50); // White
     theaterChase(strip.Color(40, 0, 0), 100); // Red
     theaterChase(strip.Color(10, 10, 0), 100); // Red n Green
-    theaterChase(strip.Color(20, 00, 20), 100); // Red n Blue
-    //theaterChase(strip.Color(0, 0, 127), 50); // Blue
-    //theaterChaseRainbow(50);
-    //rainbow(20);
-    //rainbowCycle(20);
+    rainbow(10);
+    theaterChase(strip.Color(10, 00, 10), 100); // Red n Blue
+    rainbowCycle(10);
   } else {
     for (int i = 0; i < strip.numPixels(); i++) {
       strip.setPixelColor(i, 0);
     }
     strip.show();
+    delay(50);
+    digitalWrite(powerOnPin, LOW);
   }
 }
 
@@ -203,63 +207,10 @@ void nightriderFwd(uint32_t c, uint8_t wait) {
   }//number of times
 }
 
-// Fill the dots one after the other with a color
-void colorWipe(uint32_t c, uint8_t wait) {
-  for (uint16_t i = 0; i < strip.numPixels(); i++) {
-    strip.setPixelColor(i - OFFSET - 3, c * 0);
-    strip.setPixelColor(i - OFFSET  - 2, c / 5);
-    strip.setPixelColor(i - OFFSET  - 1, c / 2);
-    strip.setPixelColor(i - OFFSET , c);
-    strip.setPixelColor(i - OFFSET  + 1, c / 2);
-    strip.setPixelColor(i - OFFSET  + 2, c / 5);
-
-    strip.setPixelColor(i - 3, c * 0);
-    strip.setPixelColor(i - 2, c / 5);
-    strip.setPixelColor(i - 1, c / 2);
-    strip.setPixelColor(i, c);
-    strip.setPixelColor(i + 1, c / 2);
-    strip.setPixelColor(i + 2, c / 5);
-
-    strip.setPixelColor(i + OFFSET - 3, c * 0);
-    strip.setPixelColor(i + OFFSET  - 2, c / 5);
-    strip.setPixelColor(i + OFFSET  - 1, c / 2);
-    strip.setPixelColor(i + OFFSET , c);
-    strip.setPixelColor(i + OFFSET  + 1, c / 2);
-    strip.setPixelColor(i + OFFSET  + 2, c / 5);
-
-    strip.show();
-    delay(wait);
-  }
-  for (uint16_t i = strip.numPixels(); i > 0; i--) {
-    strip.setPixelColor(i + OFFSET + 3, c * 0);
-    strip.setPixelColor(i + OFFSET + 2, c / 5);
-    strip.setPixelColor(i + OFFSET + 1, c / 2);
-    strip.setPixelColor(i + OFFSET, c);
-    strip.setPixelColor(i + OFFSET - 1, c / 2);
-    strip.setPixelColor(i + OFFSET - 2, c / 5);
-
-    strip.setPixelColor(i + 3, c * 0);
-    strip.setPixelColor(i + 2, c / 5);
-    strip.setPixelColor(i + 1, c / 2);
-    strip.setPixelColor(i, c);
-    strip.setPixelColor(i - 1, c / 2);
-    strip.setPixelColor(i - 2, c / 5);
-
-    strip.setPixelColor(i - OFFSET + 3, c * 0);
-    strip.setPixelColor(i - OFFSET + 2, c / 5);
-    strip.setPixelColor(i - OFFSET + 1, c / 2);
-    strip.setPixelColor(i - OFFSET, c);
-    strip.setPixelColor(i - OFFSET - 1, c / 2);
-    strip.setPixelColor(i - OFFSET - 2, c / 5);
-
-    strip.show();
-    delay(wait);
-  }
-}
 
 void rainbow(uint8_t wait) {
+  strip.setBrightness(BRIGHTNESS);
   uint16_t i, j;
-
   for (j = 0; j < 256; j++) {
     for (i = 0; i < strip.numPixels(); i++) {
       strip.setPixelColor(i, Wheel((i + j) & 255));
@@ -267,12 +218,17 @@ void rainbow(uint8_t wait) {
     strip.show();
     delay(wait);
   }
+  strip.setBrightness(255);
+  for (i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, 0);
+  }
+  strip.show();
 }
 
 // Slightly different, this makes the rainbow equally distributed throughout
 void rainbowCycle(uint8_t wait) {
+  strip.setBrightness(BRIGHTNESS);
   uint16_t i, j;
-
   for (j = 0; j < 256 * 5; j++) { // 5 cycles of all colors on wheel
     for (i = 0; i < strip.numPixels(); i++) {
       strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
@@ -280,6 +236,11 @@ void rainbowCycle(uint8_t wait) {
     strip.show();
     delay(wait);
   }
+  strip.setBrightness(255);
+  for (i = 0; i < strip.numPixels(); i++) {
+    strip.setPixelColor(i, 0);
+  }
+  strip.show();
 }
 
 //Theatre-style crawling lights.
@@ -290,27 +251,7 @@ void theaterChase(uint32_t c, uint8_t wait) {
         strip.setPixelColor(i + q, c);  //turn every third pixel on
       }
       strip.show();
-
       delay(wait);
-
-      for (uint16_t i = 0; i < strip.numPixels(); i = i + 3) {
-        strip.setPixelColor(i + q, 0);      //turn every third pixel off
-      }
-    }
-  }
-}
-
-//Theatre-style crawling lights with rainbow effect
-void theaterChaseRainbow(uint8_t wait) {
-  for (int j = 0; j < 256; j++) {   // cycle all 256 colors in the wheel
-    for (int q = 0; q < 3; q++) {
-      for (uint16_t i = 0; i < strip.numPixels(); i = i + 3) {
-        strip.setPixelColor(i + q, Wheel( (i + j) % 255)); //turn every third pixel on
-      }
-      strip.show();
-
-      delay(wait);
-
       for (uint16_t i = 0; i < strip.numPixels(); i = i + 3) {
         strip.setPixelColor(i + q, 0);      //turn every third pixel off
       }
