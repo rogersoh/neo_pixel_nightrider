@@ -74,25 +74,25 @@ void loop() {
       for (int i = 0; i < NumberPixel / GROUP; i++) {
         for (int k = 0; k < 3; k++) {
           int m = j + i * GROUP + k;
-          Serial.print("j ");
-          Serial.print(j);
-          Serial.print("   i ");
-          Serial.print(i);
-          Serial.print("   k ");
-          Serial.print(k);
-          Serial.print("   m ");
-          Serial.print(m);
+//          Serial.print("j ");
+//          Serial.print(j);
+//          Serial.print("   i ");
+//          Serial.print(i);
+//          Serial.print("   k ");
+//          Serial.print(k);
+//          Serial.print("   m ");
+//          Serial.print(m);
           if (m > (NumberPixel - 1)) {
             m = m - NumberPixel;
           }
-          Serial.print("   m(cal) ");
-          Serial.println(m);
+//          Serial.print("   m(cal) ");
+//          Serial.println(m);
           pixels.setPixelColor(m, pixels.Color(BRIGTNESS, 0, 0));
         }
       }
       pixels.show();
-      Serial.println("delay");
-      Serial.println("");
+//      Serial.println("delay");
+//      Serial.println("");
       delay(100);
       pixels.clear();
     }
