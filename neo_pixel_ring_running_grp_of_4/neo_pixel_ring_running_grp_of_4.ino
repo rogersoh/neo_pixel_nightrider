@@ -4,13 +4,13 @@
 #endif
 
 #define PIN 6
-#define NumberPixel 20
-#define GROUP 5
+#define NumberPixel 12
+#define GROUP 4
 #define readVoltPin 12
 #define powerOnPin 4
 #define sensingPin A2
 #define lowBattVolt 3.8
-#define BRIGTNESS 50
+#define BRIGTNESS 20
 float batteryVolt = 0.0;
 int printInterval = 2000;
 unsigned long printTime = 0;
@@ -63,25 +63,37 @@ void loop() {
     Serial.print("Battery Volt:  ");
     Serial.println(batteryVolt, 3);
     digitalWrite(readVoltPin, LOW);
-//    if (batteryVolt > lowBattVolt) {
-//      ON = true;
-//    } else {
-//      ON = false;
-//    }
+    //    if (batteryVolt > lowBattVolt) {
+    //      ON = true;
+    //    } else {
+    //      ON = false;
+    //    }
   }
   if (ON) {
     for (int j = 0; j < GROUP; j++) {
       for (int i = 0; i < NumberPixel / GROUP; i++) {
         for (int k = 0; k < 3; k++) {
           int m = j + i * GROUP + k;
-          if (m > NumberPixel - 1) {
+          Serial.print("j ");
+          Serial.print(j);
+          Serial.print("   i ");
+          Serial.print(i);
+          Serial.print("   k ");
+          Serial.print(k);
+          Serial.print("   m ");
+          Serial.print(m);
+          if (m > (NumberPixel - 1)) {
             m = m - NumberPixel;
           }
+          Serial.print("   m(cal) ");
+          Serial.println(m);
           pixels.setPixelColor(m, pixels.Color(BRIGTNESS, 0, 0));
         }
       }
       pixels.show();
-      delay(200);
+      Serial.println("delay");
+      Serial.println("");
+      delay(100);
       pixels.clear();
     }
   }

@@ -4,8 +4,8 @@
 #endif
 
 #define PIN 6
-#define NumberPixel 60
-#define GROUP 20
+#define NumberPixel 12
+#define GROUP 5
 #define OFFSET 30
 #define BRIGHTNESS 12
 #define readVoltPin 12
