@@ -5,12 +5,12 @@
 
 #define PIN 6
 #define NumberPixel 60
-#define GROUP 60
-#define OFFSET 30
+#define GROUP 20
+//#define OFFSET 30
 #define BRIGHTNESS 12
 int printInterval = 2000;
 unsigned long printTime = 0;
-const float OnTime = 0.5 ; // OnTime in hours
+const float OnTime = 0.75 ; // OnTime in hours
 bool ON = true;
 
 // Parameter 1 = number of pixels in strip
@@ -68,33 +68,36 @@ void loop() {
 
 // nightrider
 void nightrider(uint32_t c, uint8_t wait) {
+  for (uint8_t k = 0; k < 5; k++) {
 
-  for (uint16_t i = 0; i < GROUP; i++) {
-    for (uint16_t j = 0; j < NumberPixel / GROUP; j++) {
 
-      strip.setPixelColor(i + j * GROUP - 2, c / 10);
-      strip.setPixelColor(i + j * GROUP - 1, c / 2);
-      strip.setPixelColor(i + j * GROUP, c);
-      strip.setPixelColor(i + j * GROUP + 1, c / 2);
-      strip.setPixelColor(i + j * GROUP + 2, c / 10);
+    for (uint16_t i = 0; i < NumberPixel; i++) {
+      for (uint16_t j = 0; j < NumberPixel / GROUP; j++) {
+
+        strip.setPixelColor(range(i - 2 + j * GROUP), c / 10);
+        strip.setPixelColor(range(i  - 1 + j * GROUP), c / 2);
+        strip.setPixelColor(range(i + j * GROUP), c);
+        strip.setPixelColor(range(i + 1 + j * GROUP), c / 2);
+        strip.setPixelColor(range(i + 2 + j * GROUP), c / 10);
+      }
+      strip.show();
+      Serial.println(i);
+      delay(wait);
+      strip.clear();
+    }//forward
+    for (int i = NumberPixel - 1; i > -1; i--) {
+      for (int j = NumberPixel / GROUP - 1; j > -1; j--) {
+        strip.setPixelColor(range(i - 2  + j * GROUP) , c / 10);
+        strip.setPixelColor(range(i - 1 + j * GROUP), c / 2);
+        strip.setPixelColor(range(i + j * GROUP), c);
+        strip.setPixelColor(range(i  + 1 + j * GROUP), c / 2);
+        strip.setPixelColor(range(i  + 2 + j * GROUP), c / 10);
+      }
+      strip.show();
+      Serial.println(i);
+      delay(wait);
+      strip.clear();
     }
-    strip.show();
-    Serial.println("");
-    delay(wait);
-    strip.clear();
-  }//forward
-  for (int i = GROUP - 1; i > -1; i--) {
-    for (int j = NumberPixel / GROUP - 1; j > -1; j--) {
-      strip.setPixelColor(i + j * GROUP - 2, c / 10);
-      strip.setPixelColor(i + j * GROUP - 1, c / 2);
-      strip.setPixelColor(i + j * GROUP, c);
-      strip.setPixelColor(i + j * GROUP + 1, c / 2);
-      strip.setPixelColor(i + j * GROUP + 2, c / 10);
-    }
-    strip.show();
-    Serial.println(i);
-    delay(wait);
-    strip.clear();
   }
 }
 
@@ -203,4 +206,14 @@ uint32_t Wheel(byte WheelPos) {
   }
   WheelPos -= 170;
   return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+}
+
+int range(int m) {
+  if (m < 0) {
+    m = m + NumberPixel - 1;
+  }
+  if (m > NumberPixel - 1) {
+    m = m - NumberPixel + 1 ;
+  }
+  return m;
 }
