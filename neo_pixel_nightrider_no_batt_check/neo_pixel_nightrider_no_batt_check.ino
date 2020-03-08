@@ -5,12 +5,12 @@
 
 #define PIN 6
 #define NumberPixel 60
-#define GROUP 20
-//#define OFFSET 30
+#define GROUP 15
+#define OFFSET 30
 #define BRIGHTNESS 12
 int printInterval = 2000;
 unsigned long printTime = 0;
-const float OnTime = 0.75 ; // OnTime in hours
+const float OnTime = 0.17 ; // OnTime in hours
 bool ON = true;
 
 // Parameter 1 = number of pixels in strip
@@ -58,10 +58,11 @@ void loop() {
     theaterChase(strip.Color(10, 00, 10), 100); // Red n Blue
     rainbowCycle(10);
   } else {
-    for (int i = 0; i < strip.numPixels(); i++) {
-      strip.setPixelColor(i, 0);
-    }
-    strip.show();
+//    for (int i = 0; i < strip.numPixels(); i++) {
+//      strip.setPixelColor(i, 0);
+//    }
+//    strip.show();
+    strip.clear();
     delay(50);
   }
 }
